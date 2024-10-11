@@ -26,6 +26,7 @@ public class IndexServiceImpl implements IndexService
             indexRepository.deleteWebsiteDataByUrl(newSite.getUrl());
             indexRepository.createNewSiteRecord(newSite.getName(),newSite.getUrl(), SiteStatus.INDEXING);
 
+
         }
         indexResponse.setResult(true);
         return indexResponse;
