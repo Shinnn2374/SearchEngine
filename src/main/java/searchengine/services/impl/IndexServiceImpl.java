@@ -1,5 +1,6 @@
 package searchengine.services.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import searchengine.config.Site;
 import searchengine.config.SitesList;
@@ -11,7 +12,9 @@ import searchengine.utils.SiteStatus;
 @Service
 public class IndexServiceImpl implements IndexService
 {
+    @Autowired
     private IndexRepository indexRepository;
+    @Autowired
     private SitesList sitesList;
 
     @Override
