@@ -31,4 +31,9 @@ public class IndexServiceImpl implements IndexService
         indexResponse.setResult(true);
         return indexResponse;
     }
+
+    @Override
+    public IndexResponse stopIndexing() {
+        return null;
+    }
 }
