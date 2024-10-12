@@ -20,4 +20,9 @@ public interface IndexRepository extends JpaRepository<site,Long>
     @Transactional
     @Query(value = "INSERT INTO site (name, url, site_status) VALUES (:name, :url, :siteStatus)", nativeQuery = true)
     void createNewSiteRecord(@Param("name") String name, @Param("url") String url, @Param("siteStatus") SiteStatus siteStatus);
+
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO site (name, url, site_status) VALUES (:name, :url, 'INDEXING')",nativeQuery = true)
+    void createSite(@Param("name") String name, @Param("url") String url);
 }

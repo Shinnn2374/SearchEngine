@@ -20,7 +20,7 @@ public class site
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "site_status", nullable = false)
+    @Column(name = "site_status")
     private SiteStatus status;
 
     @CreationTimestamp
