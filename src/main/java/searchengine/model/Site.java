@@ -2,6 +2,7 @@ package searchengine.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import searchengine.utils.EnumStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,11 +15,11 @@ public class Site
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('INDEXING', 'INDEXED', 'FAILED') NOT NULL")
-    private Status status;
+    @Column(name = "status", nullable = false)
+    private EnumStatus status;
 
     @Column(name = "status_time", nullable = false)
     private LocalDateTime statusTime;
@@ -31,8 +32,4 @@ public class Site
 
     @Column(nullable = false, length = 255)
     private String name;
-
-    public enum Status {
-        INDEXING, INDEXED, FAILED
-    }
 }

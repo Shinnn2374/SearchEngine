@@ -13,7 +13,7 @@ public class Page
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "site_id", nullable = false)
@@ -23,7 +23,7 @@ public class Page
     private String path;
 
     @Column(nullable = false)
-    private int code;
+    private Integer code;
 
     @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
     private String content;
