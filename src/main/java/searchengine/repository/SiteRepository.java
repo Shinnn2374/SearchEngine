@@ -5,10 +5,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import searchengine.model.Site;
-import searchengine.utils.EnumStatus;
+import searchengine.config.Site;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface SiteRepository extends JpaRepository<Site, Integer> {
@@ -26,6 +26,16 @@ public interface SiteRepository extends JpaRepository<Site, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE Site s SET s.status = 'INDEXED' WHERE s.status = 'INDEXING' ", nativeQuery = true)
-    void updateStatus();
+    @Query(value = "SELECT * FROM Site WHERE status = :status", nativeQuery = true)
+    List<> findByStatus(@Param("status") String status);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Site SET status = 'FAILED', last_error = :errorMessage WHERE url = :url", nativeQuery = true)
+    void updateStatusFailed(@Param("url") String url, @Param("errorMessage") String errorMessage);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Site SET status = 'INDEXED' WHERE url = :url", nativeQuery = true)
+    void updateStatusIndexed(@Param("url") String url);
 }
