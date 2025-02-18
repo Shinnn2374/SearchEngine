@@ -22,4 +22,10 @@ public interface SiteRepository extends JpaRepository<Site, Integer> {
     @Modifying
     @Query(value = "INSERT INTO Site (status, status_time, last_error, url, name) VALUES (:status, current_timestamp(), NULL , :url, :name)", nativeQuery = true)
     void createNewSite(@Param("name") String name, @Param("url") String url, @Param("status") String status);
+
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Site s SET s.status = 'INDEXED' WHERE s.status = 'INDEXING' ", nativeQuery = true)
+    void updateStatus();
 }

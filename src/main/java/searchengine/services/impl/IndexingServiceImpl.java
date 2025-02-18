@@ -18,14 +18,17 @@ public class IndexingServiceImpl implements IndexingService
     private final SiteRepository siteRepository;
     private final PageRepository pageRepository;
     private final SitesList sitesList;
+    private Integer siteId = 0;
 
     @Override
     public Void startIndexing() {
         for (Site site : sitesList.getSites()) {
+            siteId = siteId +1;
             siteRepository.deleteAllByUrl(site.getUrl());
             siteRepository.createNewSite(site.getName(),site.getUrl(), "INDEXING");
-            WebExecutor webExecutor = new WebExecutor(site.getUrl());
+            WebExecutor webExecutor = new WebExecutor(site.getUrl(), siteId, pageRepository);
             webExecutor.compute();
+            siteRepository.updateStatus();
         }
         return null;
     }

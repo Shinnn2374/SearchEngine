@@ -13,6 +13,6 @@ public interface PageRepository extends JpaRepository<Page, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO Page (path, code, content) VALUES ( :path, :code, :content ) ", nativeQuery = true)
-    void insertPage(@Param("path") String path, @Param("code") Integer code, @Param("content") String content);
+    @Query(value = "INSERT INTO Page (site_id,path, code, content) VALUES (:siteId ,:path, :code, :content ) ", nativeQuery = true)
+    void insertPage(@Param("siteId") Integer siteId ,@Param("path") String path, @Param("code") Integer code, @Param("content") String content);
 }
