@@ -21,7 +21,6 @@ public class IndexingServiceImpl implements IndexingService {
     private final SitesList sitesList;
     private Integer siteId = 0;
 
-    // Флаг для остановки индексации
     private final AtomicBoolean isIndexing = new AtomicBoolean(false);
     private final AtomicBoolean isStopped = new AtomicBoolean(false);
 
@@ -67,13 +66,10 @@ public class IndexingServiceImpl implements IndexingService {
         isStopped.set(true);
         isIndexing.set(false);
 
-        // Обновляем статус всех сайтов, которые находились в процессе индексации
-        List<Site> indexingSites = siteRepository.findByStatus("INDEXING");
-        for (Site site : indexingSites) {
-            siteRepository.updateStatusFailed(site.getUrl(), "Индексация остановлена пользователем");
+        List<String> indexingSites = siteRepository.findByStatus("INDEXING");
+        for (String site : indexingSites) {
+            siteRepository.updateStatusFailed(site, "Индексация остановлена пользователем");
         }
-
-        // Возвращаем успешный ответ
         return new IndexingResponse(true, null);
     }
 

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import searchengine.config.Site;
+import searchengine.model.Site;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -27,7 +27,7 @@ public interface SiteRepository extends JpaRepository<Site, Integer> {
     @Transactional
     @Modifying
     @Query(value = "SELECT * FROM Site WHERE status = :status", nativeQuery = true)
-    List<> findByStatus(@Param("status") String status);
+    List<String> findByStatus(@Param("status") String status);
 
     @Transactional
     @Modifying
