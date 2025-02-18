@@ -16,7 +16,7 @@ public class Page
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "site_id")
+    @JoinColumn(name = "site_id", nullable = false)
     private Site site;
 
     @Column(nullable = false, columnDefinition = "TEXT")

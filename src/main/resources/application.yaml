@@ -8,6 +8,23 @@ indexing-settings:
       name: Skillbox
     - url: https://www.playback.ru
       name: PlayBack.Ru
+    - url: http://radiomv.ru
+      name: Radimov
+    - url: https://ipfran.ru
+      name: ipfran
+    - url: https://dimonvideo.ru
+      name: dimonvideo
+    - url: https://nikoartgallery.com
+      name: nikoargallery
+    - url: https://et-cetera.ru/mobile
+      name: et-catera
+    - url: https://www.lutherancathedral.ru
+      name: lutherancathedral
+    - url: https://dombulgakova.ru
+      name: dombulgakova
+    - url: https://www.svetlovka.ru
+      name: svetlovka
+
 server:
   port: 8080
 spring:
