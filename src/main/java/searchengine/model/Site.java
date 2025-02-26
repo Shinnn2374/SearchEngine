@@ -5,7 +5,8 @@ import lombok.Setter;
 import searchengine.utils.SiteStatus;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class Site {
     private SiteStatus status;
 
     @Column(name = "status_time", nullable = false)
-    private LocalDateTime statusTime;
+    private Instant statusTime;
 
     @Column(name = "last_error", columnDefinition = "TEXT")
     private String lastError;
