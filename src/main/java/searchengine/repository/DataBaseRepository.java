@@ -5,8 +5,6 @@ import org.springframework.stereotype.Repository;
 import searchengine.model.Site;
 
 
-
-
 @Repository
 public interface DataBaseRepository extends JpaRepository<Site, Integer> {
 

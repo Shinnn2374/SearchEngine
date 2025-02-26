@@ -6,7 +6,6 @@ import searchengine.config.SitesList;
 import searchengine.repository.DataBaseRepository;
 import searchengine.services.IndexingService;
 
-import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
