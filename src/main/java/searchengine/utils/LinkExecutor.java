@@ -4,9 +4,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import searchengine.repository.DataBaseRepository;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -42,7 +44,16 @@ public class LinkExecutor extends RecursiveTask<String> {
         List<LinkExecutor> tasks = new CopyOnWriteArrayList<>();
 
         try {
+            // Проверяем MIME-тип содержимого
+            if (!isHtmlContent(url)) {
+                System.out.println("Skipping non-HTML content: " + url);
+                return "";
+            }
+
             // Задержка для избежания блокировки
+            if (Thread.currentThread().isInterrupted()) {
+                throw new InterruptedException("Thread was interrupted");
+            }
             Thread.sleep(DELAY_MS);
 
             // Получаем содержимое страницы
@@ -58,15 +69,20 @@ public class LinkExecutor extends RecursiveTask<String> {
             Elements elements = document.select(CSS_QUERY);
             for (Element element : elements) {
                 String attributeUrl = element.absUrl(ATTRIBUTE_KEY);
-                if (!attributeUrl.isEmpty() && attributeUrl.startsWith(url) && !WRITE_ARRAY_LIST.contains(attributeUrl) && !attributeUrl.contains("#")) {
+                if (!attributeUrl.isEmpty()
+                        && attributeUrl.startsWith(url)
+                        && !WRITE_ARRAY_LIST.contains(attributeUrl)
+                        && !attributeUrl.contains("#")) {
                     LinkExecutor task = new LinkExecutor(attributeUrl, siteId, dataBaseRepository);
                     task.fork();
                     tasks.add(task);
                 }
             }
-        } catch (InterruptedException | IOException e) {
+        } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            // В случае ошибки можно записать её в лог или базу данных
+            System.err.println("Thread interrupted while processing URL: " + url);
+            return ""; // Прерываем обработку текущего URL
+        } catch (IOException e) {
             System.err.println("Error processing URL: " + url + ", Error: " + e.getMessage());
         }
 
@@ -79,18 +95,44 @@ public class LinkExecutor extends RecursiveTask<String> {
         return sb.toString();
     }
 
+    private boolean isHtmlContent(String url) throws IOException {
+        try {
+            // Выполняем HEAD-запрос для получения заголовков
+            org.jsoup.Connection connection = Jsoup.connect(url)
+                    .userAgent(USER_AGENT)
+                    .referrer(REFERRER)
+                    .method(org.jsoup.Connection.Method.HEAD);
+
+            // Получаем MIME-тип
+            String contentType = connection.execute().header("Content-Type");
+            if (contentType == null) {
+                return false; // Нет информации о типе содержимого
+            }
+
+            // Проверяем, является ли контент HTML
+            return contentType.startsWith("text/html") || contentType.contains("xml");
+        } catch (Exception e) {
+            System.err.println("Failed to check content type for URL: " + url + ", Error: " + e.getMessage());
+            return false;
+        }
+    }
+
     private void savePageToDatabase(Document document) {
         try {
-            // Получаем HTTP-код (Jsoup не предоставляет код ответа напрямую, поэтому используем обходной путь)
+            // Получаем HTTP-код
             int code = document.connection().response().statusCode();
 
             // Получаем содержимое страницы
             String content = document.html();
 
-            // Получаем путь страницы (относительный URL)
-            String path = document.location().replace(document.baseUri(), "/");
+            // Извлекаем корректный path из URL
+            URI uri = new URI(document.location());
+            String path = uri.getPath();
+            if (path == null || path.isEmpty()) {
+                path = "/";
+            }
 
-            // Сохраняем страницу в базу данных через репозиторий
+            // Сохраняем страницу в базу данных
             dataBaseRepository.insertPage(code, path, content, siteId);
         } catch (Exception e) {
             System.err.println("Failed to save page to database: " + url + ", Error: " + e.getMessage());

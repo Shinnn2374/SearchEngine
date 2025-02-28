@@ -17,17 +17,17 @@ public class IndexingServiceImpl implements IndexingService {
 
     private final DataBaseRepository repository;
     private final SitesList sitesList;
-    private static Integer index = 0;
+    private static Integer siteId = 1;
 
     @Override
     public Void startIndexing() {
         for (Site site : sitesList.getSites()) {
-            LinkExecutor linkExecutor = new LinkExecutor(site.getUrl(), index, repository);
+            LinkExecutor linkExecutor = new LinkExecutor(site.getUrl(), siteId, repository);
             repository.deleteByUrl(site.getUrl());
-            repository.createSiteByUrl(site.getUrl(), Instant.now());
+            repository.createSiteByUrl(site.getName() ,site.getUrl(), Instant.now());
             linkExecutor.compute();
             repository.updateIndexingSitesToIndexed(Instant.now());
-            index+= 1;
+            siteId += 1;
         }
         return null;
     }

@@ -17,9 +17,10 @@ public interface DataBaseRepository extends JpaRepository<Site, Integer>{
     // Метод который создает новую запись в таблице Site с статусом 'INDEXING'
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO site (status, status_time, last_error, url, name) " +
-            "VALUES ('INDEXING', :statusTime, NULL, :url, :url)", nativeQuery = true)
+    @Query(value = "INSERT INTO site (name, status, status_time, last_error, url) " +
+            "VALUES (:name,'INDEXING', :statusTime, NULL, :url)", nativeQuery = true)
     void createSiteByUrl(
+            @Param("name") String name,
             @Param("url") String url,
             @Param("statusTime") Instant statusTime
     );
