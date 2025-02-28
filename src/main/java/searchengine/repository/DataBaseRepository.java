@@ -14,23 +14,31 @@ import java.time.Instant;
 @Repository
 public interface DataBaseRepository extends JpaRepository<Site, Integer>{
 
+    // Метод который создает новую запись в таблице Site с статусом 'INDEXING'
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO Site (status, status_time, last_error, url, name) " +
+    @Query(value = "INSERT INTO site (status, status_time, last_error, url, name) " +
             "VALUES ('INDEXING', :statusTime, NULL, :url, :url)", nativeQuery = true)
     void createSiteByUrl(
             @Param("url") String url,
             @Param("statusTime") Instant statusTime
     );
 
-
+    // Метод который удаляет все записи из таблицы Site по заданному url
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM site WHERE url = :url", nativeQuery = true)
     void deleteByUrl(@Param("url") String url);
 
+    // Метод который обновляет статус записи в таблице Site по окончанию индексации
     @Modifying
     @Transactional
     @Query(value = "UPDATE site SET status = 'INDEXED', status_time = :statusTime WHERE status = 'INDEXING'", nativeQuery = true)
     void updateIndexingSitesToIndexed(@Param("statusTime") Instant statusTime);
+
+    // Метод который добавляет данные в таблицу Page
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO page(code, content, path, site_id) VALUES ( :code, :content, :path, :site_id)", nativeQuery = true)
+    void insertPage(@Param("code") Integer code,@Param("path") String path,@Param("content") String content, @Param("site_id") Integer siteId);
 }

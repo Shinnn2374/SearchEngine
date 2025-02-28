@@ -17,16 +17,17 @@ public class IndexingServiceImpl implements IndexingService {
 
     private final DataBaseRepository repository;
     private final SitesList sitesList;
-
-    LinkExecutor linkExecutor = new LinkExecutor();
+    private static Integer index = 0;
 
     @Override
     public Void startIndexing() {
         for (Site site : sitesList.getSites()) {
+            LinkExecutor linkExecutor = new LinkExecutor(site.getUrl(), index, repository);
             repository.deleteByUrl(site.getUrl());
             repository.createSiteByUrl(site.getUrl(), Instant.now());
             linkExecutor.compute();
             repository.updateIndexingSitesToIndexed(Instant.now());
+            index+= 1;
         }
         return null;
     }
