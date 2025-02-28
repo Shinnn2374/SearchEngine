@@ -8,8 +8,10 @@ indexing-settings:
       name: Skillbox
     - url: https://www.playback.ru
       name: PlayBack.Ru
-    - url: https://nikoartgallery.com
-      name: nik
+    - url: https://ipfran.ru
+      name: ipfan
+    - url: https://www.svetlovka.ru
+      name: aaaa
 server:
   port: 8080
 spring:
