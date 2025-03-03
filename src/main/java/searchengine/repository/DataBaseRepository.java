@@ -42,4 +42,11 @@ public interface DataBaseRepository extends JpaRepository<Site, Integer>{
     @Transactional
     @Query(value = "INSERT INTO page(code, content, path, site_id) VALUES ( :code, :content, :path, :site_id)", nativeQuery = true)
     void insertPage(@Param("code") Integer code,@Param("path") String path,@Param("content") String content, @Param("site_id") Integer siteId);
+
+
+    // Метод который изменяет статусы при остановки индексации
+    @Modifying
+    @Transactional
+    @Query("UPDATE Site s SET s.status = 'FAILED', s.lastError = ?1 WHERE s.status = 'INDEXING'")
+    void updateIndexingSitesToFailed(String errorMessage);
 }

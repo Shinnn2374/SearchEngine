@@ -34,6 +34,8 @@ public class IndexingServiceImpl implements IndexingService {
 
     @Override
     public Void stopIndexing() {
+        LinkExecutor.stop();
+        repository.updateIndexingSitesToFailed("Индексация остановлена пользователем");
         return null;
     }
 }

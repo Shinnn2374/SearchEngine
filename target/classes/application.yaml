@@ -11,7 +11,8 @@ indexing-settings:
     - url: https://ipfran.ru
       name: ipfan
     - url: https://www.svetlovka.ru
-      name: aaaa
+      name: svetlovka
+
 server:
   port: 8080
 spring:
