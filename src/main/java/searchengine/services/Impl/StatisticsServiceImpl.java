@@ -14,13 +14,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Класс реализующий интерфейс сервиса сбора статистики
+ * @see StatisticsService
+ */
+
 @Service
 @RequiredArgsConstructor
 public class StatisticsServiceImpl implements StatisticsService {
 
     private final Random random = new Random();
+    /**
+     * Поле для создания объекта списка сайтов
+     */
     private final SitesList sites;
 
+    /**
+     * Метод запускающий сбор статистики по сайтам
+     * @return StatisticsResponse
+     * @see StatisticsResponse
+     */
     @Override
     public StatisticsResponse getStatistics() {
         String[] statuses = { "INDEXED", "FAILED", "INDEXING" };

@@ -14,18 +14,50 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.RecursiveTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Класс содержащий методы для индексации сайтов
+ */
+
 public class LinkExecutor extends RecursiveTask<String> {
+    /**
+     * Поле для создания конструктора, содержит адрес сайта
+     */
     private final String url;
+    /**
+     * Поле для создания конструктора, содержит уникальный номер сайта в таблице
+     */
     private final Integer siteId;
+    /**
+     * Лист в который будут записываться страницы которые уже прошли индексацию
+     */
     private static final CopyOnWriteArrayList<String> WRITE_ARRAY_LIST = new CopyOnWriteArrayList<>();
+    /**
+     * CSS тег который будет по которому будет идти поиск
+     */
     private static final String CSS_QUERY = "a[href]";
+    /**
+     * ключ по которому будет по которому будет идти поиск
+     */
     private static final String ATTRIBUTE_KEY = "href";
+    /**
+     * Подключение userAgent для индексации
+     */
     private static final String USER_AGENT = "Mozilla/5.0";
     private static final String REFERRER = "http://www.google.com";
+    /**
+     * Задержка между запросами
+     */
     private static final int DELAY_MS = 500;
 
+    /**
+     * Объект репозитория для взаимодействия с БД
+     * @see DataBaseRepository
+     */
     private final DataBaseRepository dataBaseRepository;
-    private static final AtomicBoolean isStopped = new AtomicBoolean(false); // Флаг для остановки
+    /**
+     * Флаг для остановки
+     */
+    private static final AtomicBoolean isStopped = new AtomicBoolean(false);
 
     public LinkExecutor(String url, Integer siteId, DataBaseRepository dataBaseRepository) {
         this.url = url.trim();
@@ -97,6 +129,11 @@ public class LinkExecutor extends RecursiveTask<String> {
 
         return sb.toString();
     }
+
+    /**
+     * Метод для сохранения страницы в БД
+     * @param document
+     */
     private void savePageToDatabase(Document document) {
         try {
             // Получаем HTTP-код
@@ -118,6 +155,12 @@ public class LinkExecutor extends RecursiveTask<String> {
         }
     }
 
+    /**
+     * Метод для определения формата контента(в случае когда это картинка и тд.)
+     * @param url
+     * @return
+     * @throws IOException
+     */
     private boolean isHtmlContent(String url) throws IOException {
         try {
             // Выполняем HEAD-запрос для получения заголовков
