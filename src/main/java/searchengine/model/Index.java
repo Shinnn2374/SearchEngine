@@ -12,8 +12,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "index")
-public class Index{
+@Table(name = "search_index")
+public class Index {
 
     /**
      * Primary key, уникальный идентификатор индекса в таблице
@@ -35,6 +35,6 @@ public class Index{
     /**
      * Поле в котором хранится количество леммы для данной таблицы
      */
-    @Column(name = "rank", nullable = false)
+    @Column(name = "lemma_rank", nullable = false)
     private Float rank;
 }

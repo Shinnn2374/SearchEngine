@@ -20,7 +20,7 @@ public class Page {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     /**
      *  ID сайта которому принадлежит данная страница
@@ -39,7 +39,7 @@ public class Page {
      * Код ответа полученного при попытке открытия страницы
      */
     @Column(name = "code", nullable = false)
-    private int code;
+    private Integer code;
 
     /**
      * Поле для хранения контента хранящегося на сайте

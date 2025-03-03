@@ -22,7 +22,7 @@ public class Site {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     /**
      * Поле для отображения состояния сайта во время/после индексации
