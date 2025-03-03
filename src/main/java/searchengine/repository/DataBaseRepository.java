@@ -10,11 +10,19 @@ import searchengine.model.Site;
 import javax.transaction.Transactional;
 import java.time.Instant;
 
+/**
+ * Интерфейс для взаимодействия с БД MySQL
+ */
 
 @Repository
 public interface DataBaseRepository extends JpaRepository<Site, Integer>{
 
-    // Метод который создает новую запись в таблице Site с статусом 'INDEXING'
+    /**
+     * Метод который создает новую запись в таблице Site с статусом 'INDEXING'
+     * @param name
+     * @param url
+     * @param statusTime
+     */
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO site (name, status, status_time, last_error, url) " +
@@ -25,26 +33,41 @@ public interface DataBaseRepository extends JpaRepository<Site, Integer>{
             @Param("statusTime") Instant statusTime
     );
 
-    // Метод который удаляет все записи из таблицы Site по заданному url
+    /**
+     * Метод который удаляет все записи из таблицы Site по заданному url
+     * @param url
+     */
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM site WHERE url = :url", nativeQuery = true)
     void deleteByUrl(@Param("url") String url);
 
-    // Метод который обновляет статус записи в таблице Site по окончанию индексации
+    /**
+     * Метод который обновляет статус записи в таблице Site по окончанию индексации
+     * @param statusTime
+     */
     @Modifying
     @Transactional
     @Query(value = "UPDATE site SET status = 'INDEXED', status_time = :statusTime WHERE status = 'INDEXING'", nativeQuery = true)
     void updateIndexingSitesToIndexed(@Param("statusTime") Instant statusTime);
 
-    // Метод который добавляет данные в таблицу Page
+    /**
+     * Метод который добавляет данные в таблицу Page
+     * @param code
+     * @param path
+     * @param content
+     * @param siteId
+     */
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO page(code, content, path, site_id) VALUES ( :code, :content, :path, :site_id)", nativeQuery = true)
     void insertPage(@Param("code") Integer code,@Param("path") String path,@Param("content") String content, @Param("site_id") Integer siteId);
 
 
-    // Метод который изменяет статусы при остановки индексации
+    /**
+     * Метод который изменяет статусы при остановки индексации
+     * @param errorMessage
+     */
     @Modifying
     @Transactional
     @Query("UPDATE Site s SET s.status = 'FAILED', s.lastError = ?1 WHERE s.status = 'INDEXING'")
