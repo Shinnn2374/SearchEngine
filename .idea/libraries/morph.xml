@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="morph">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../либ/morphology/dictionary-reader" />
+      <root url="file://$PROJECT_DIR$/../../либ/morphology/english" />
+      <root url="file://$PROJECT_DIR$/../../либ/morphology/morph" />
+      <root url="file://$PROJECT_DIR$/../../либ/morphology/morphology" />
+      <root url="file://$PROJECT_DIR$/../../либ/morphology/russian" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

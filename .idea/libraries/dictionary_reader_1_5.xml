@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="dictionary-reader-1.5">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../Новая папка/dictionary-reader-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Новая папка/english-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Новая папка/lucene-analyzers-common-8.11.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Новая папка/lucene-core-8.11.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Новая папка/morph-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Новая папка/morphology-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Новая папка/russian-1.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
