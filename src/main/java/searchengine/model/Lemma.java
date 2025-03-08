@@ -25,11 +25,13 @@ public class Lemma{
      */
     @Column(name = "site_id", nullable = false)
     private Integer siteId;
+    
     /**
      * Поле в котором хранится лемма
      */
     @Column(name = "lemma", nullable = false, length = 255)
     private String lemma;
+
     /**
      * Поле в котором хранится количество страниц, на которых лемма
      * встречается хотя бы один раз
