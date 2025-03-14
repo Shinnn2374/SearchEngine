@@ -13,6 +13,7 @@ indexing-settings:
     - url: https://www.svetlovka.ru
       name: svetlovka
 
+
 server:
   port: 8080
 spring:

@@ -25,7 +25,7 @@ public class Lemma{
      */
     @Column(name = "site_id", nullable = false)
     private Integer siteId;
-    
+
     /**
      * Поле в котором хранится лемма
      */
